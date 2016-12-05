@@ -92,7 +92,9 @@ init([]) ->
                     exit(Error)
             end
     end,
-    random:seed(now()),
+    _ = random:seed(erlang:phash2([node()]),
+                    erlang:monotonic_time(),
+                    erlang:unique_integer()),
     {ok, #state{}}.
 
 handle_call({on, Opts}, _From, State = #state{is_active = false}) ->
